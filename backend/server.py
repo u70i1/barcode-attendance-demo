@@ -1,15 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from datetime import datetime
 import csv
 
 app = FastAPI()
 
-# Only for demo purposes
+origins = ["http://localhost:5173"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -61,3 +64,5 @@ def scan(payload: ScanRequest):
         "nisn": student["nisn"],
         "timestamp": datetime.now().isoformat(timespec="seconds"),
     }
+
+app.mount("/photos", StaticFiles(directory="photos"), name="photos")
