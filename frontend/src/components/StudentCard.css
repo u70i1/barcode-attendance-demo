@@ -39,7 +39,7 @@ h3.student-nisn {
   color: #555555;
 }
 /* IMG_0113 1 */
-img {
+img.card-img {
   aspect-ratio: 3/4;
   height: 573px;
   object-fit: cover;
@@ -48,7 +48,7 @@ img {
 }
 
 /* 06:55 */
-.time {
+.student-card .time {
   position: absolute;
   width: 48px;
   height: 21px;
