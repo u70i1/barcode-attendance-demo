@@ -1,13 +1,13 @@
-import "./Input.css";
+import "./InputDevice.css";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/school-logo.png";
 import screw from "../assets/screw.png";
 import OtpInput from "react-otp-input";
 import { useState } from "react";
 
 import Cable from "./sub-components/Cable";
 
-function Input({ onScan }) {
+function InputDevice({ onScan }) {
   const now = new Date();
   const hh_mm = now.toLocaleTimeString("en-US", {
     hour: "2-digit",
@@ -28,7 +28,7 @@ function Input({ onScan }) {
         <div className="device-header">
           <img src={logo} alt="" className="device-logo" />
           <p className="device-title">
-            smpn 17 kota jambi · attendance terminal
+            rapture high · attendance terminal
           </p>
         </div>
 
@@ -68,4 +68,4 @@ function Input({ onScan }) {
   );
 }
 
-export default Input;
+export default InputDevice;
