@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   padding: 25px 40px 40px;
-  gap: 15px;
+  gap: 16px;
   isolation: isolate;
 
   position: absolute;
@@ -29,8 +29,8 @@
   padding: 0px;
   gap: 5px;
 
-  width: 252px;
-  height: 56px;
+  /* width: 252px;
+  height: 56px; */
 
   flex: none;
   order: 0;
@@ -126,30 +126,18 @@ img.device-logo {
 
   color: rgba(51, 51, 51, 0.75);
 }
-/*
-.input-boxes {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 12px;
 
-  height: 21px;
-  width: 318px;
+.digit {
+  cursor: default; /* or 'pointer', 'none', etc — changes hover icon */
+  caret-color: transparent; /* hides the blinking text caret */
 
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-} */
-
-.input-boxes .digit {
   font-size: 21px;
   font-family: "Jetbrains Mono", monospace;
   color: rgba(51, 51, 51, 0.9);
   box-sizing: border-box;
 
   width: 21px;
-  height: 21px;
+  height: 32px;
 
   border: none;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.25);
@@ -162,8 +150,9 @@ img.device-logo {
   flex-grow: 0;
 }
 
-.input-boxes .digit:focus {
+.digit:focus {
   outline: none;
+  background: rgba(0, 0, 0, 0.25);
 }
 
 img.screw {
@@ -196,3 +185,33 @@ img.screw.dr {
   right: 12px;
 }
 
+.scanning-label {
+  align-items: center;
+  padding: 14px 0px;
+
+  width: 321px;
+  height: 32px;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  /* Inside auto layout */
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+/* SCANNING... */
+.scanning-label p {
+  width: 80px;
+  height: 4px;
+
+  font-family: "DM Mono";
+  font-size: 16px;
+  line-height: 4px;
+
+  color: #d5d5c0;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}

@@ -3,7 +3,7 @@ import "./InputDevice.css";
 import logo from "../assets/school-logo.png";
 import screw from "../assets/screw.png";
 import OtpInput from "react-otp-input";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Cable from "./sub-components/Cable";
 
@@ -15,7 +15,28 @@ function InputDevice({ onScan }) {
     hour12: false,
   });
 
-  const [nisn, setNisn] = useState();
+  const [nisn, setNisn] = useState("");
+  const [isScanning, setIsScanning] = useState(false);
+  const containerRef = useRef();
+
+  useEffect(() => {
+    if (!isScanning) {
+      const firstInput = containerRef.current?.querySelector("input");
+      firstInput?.focus();
+    }
+  }, [isScanning]);
+
+  useEffect(() => {
+    if (nisn.length === 10) {
+      const scanned = async () => {
+        setNisn("");
+        setIsScanning(true);
+        await onScan();
+        setIsScanning(false);
+      };
+      scanned();
+    }
+  }, [nisn]);
 
   return (
     <>
@@ -28,7 +49,7 @@ function InputDevice({ onScan }) {
         <div className="device-header">
           <img src={logo} alt="" className="device-logo" />
           <p className="device-title">
-            rapture high · attendance terminal
+            rapture high school of art · attendance terminal
           </p>
         </div>
 
@@ -38,11 +59,20 @@ function InputDevice({ onScan }) {
             <span className="date">RAB 07 Jul</span>
           </div>
           <label className="panel-label">NISN</label>
-          <div className="input-boxes">
+          <div
+            className="scanning-label"
+            style={{ display: isScanning ? "flex" : "none" }}
+          >
+            <p>SCANNING...</p>
+          </div>
+          <div
+            className="input-boxes"
+            ref={containerRef}
+            style={{ display: isScanning ? "none" : "block" }}
+          >
             <OtpInput
               containerStyle={{
                 display: "flex",
-                flexDirection: "row",
                 justifyContent: "space-between",
                 padding: "0px",
 
@@ -54,15 +84,9 @@ function InputDevice({ onScan }) {
               numInputs={10}
               shouldAutoFocus={true}
               renderInput={(props) => <input {...props} className="digit" />}
-            />
+            />{" "}
           </div>
         </div>
-
-        {/* <img src={screwTL} className="screw screw-tl" alt="" />
-      <img src={screwTR} className="screw screw-tr" alt="" />
-      <img src={screwBL} className="screw screw-bl" alt="" />
-      <img src={screwBR} className="screw screw-br" alt="" />
-      <img src={holeThingy} className="hole-thingy" alt="" /> */}
       </div>
     </>
   );
