@@ -1,3 +1,8 @@
+.device-container {
+  position: relative;
+  display: flex;
+}
+
 .input-device {
   font-family: "Plus Jakarta Sans";
   display: flex;
@@ -12,7 +17,7 @@
   width: 480px;
   height: 275px;
   top: 470px;
-  left: calc(50% - 200px);
+  left: 10%;
 
   background: #5e6d7d;
   box-shadow:
@@ -214,4 +219,9 @@ img.screw.dr {
   flex: none;
   order: 0;
   flex-grow: 0;
+}
+
+.cable {
+  position: absolute;
+  left: 10%;
 }

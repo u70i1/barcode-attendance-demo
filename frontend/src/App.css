@@ -6,9 +6,34 @@
   color: #111;
 }
 
-.container {
+.app-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  width: 100vw;
 }
+
+.deck-container {
+  flex: 0 0 55%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  position: relative;
+  height: 100vh;
+}
+
+.device-container {
+  flex: 0 0 45%;
+}
+/* .student-card-wrapper {
+  position: absolute;
+} */
+/*
+.student-card.placed {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.student-card:not(.placed) {
+  top: 50%;
+  transform: translateY(-200%);
+} */

@@ -21,8 +21,10 @@ app.add_middleware(
 STUDENTS_CSV = Path("mock/attendance.csv")
 LOG_CSV = Path("mock/scan_log.csv")
 
+
 class ScanRequest(BaseModel):
     nisn: str
+
 
 class ScanResponse(BaseModel):
     status: str
@@ -31,7 +33,9 @@ class ScanResponse(BaseModel):
     nisn: Optional[str] = None
     timestamp: Optional[str] = None
 
+
 _students_cache: Optional[Dict[str, dict]] = None
+
 
 def load_students() -> Dict[str, dict]:
     global _students_cache
@@ -51,6 +55,7 @@ def load_students() -> Dict[str, dict]:
     _students_cache = students
     return students
 
+
 def get_today_logs() -> List[str]:
     if not LOG_CSV.exists():
         return []
@@ -68,6 +73,7 @@ def get_today_logs() -> List[str]:
                 continue
     return scanned_nisns
 
+
 def log_scan(student: dict):
     timestamp = datetime.now().isoformat(timespec="seconds")
     file_exists = LOG_CSV.exists()
@@ -78,12 +84,15 @@ def log_scan(student: dict):
         writer = csv.writer(f)
         if not file_exists:
             writer.writerow(["name", "class", "nisn", "timestamp"])
-        writer.writerow([
-            student.get("name", ""),
-            student.get("class", ""),
-            student.get("nisn", ""),
-            timestamp
-        ])
+        writer.writerow(
+            [
+                student.get("name", ""),
+                student.get("class", ""),
+                student.get("nisn", ""),
+                timestamp,
+            ]
+        )
+
 
 @app.post("/scan", response_model=ScanResponse)
 async def scan(payload: ScanRequest):
@@ -96,12 +105,16 @@ async def scan(payload: ScanRequest):
     # 2. Check if student exists
     student = students.get(payload.nisn)
     if student is None:
-        return ScanResponse(status="not_found", nisn=payload.nisn)
+        raise HTTPException(
+            status_code=404, detail={"message": "not_found", "nisn": payload.nisn}
+        )
 
     # 3. Check if already scanned today
-    today_scanned = get_today_logs()
-    if payload.nisn in today_scanned:
-        return ScanResponse(status="already_exists", nisn=payload.nisn)
+    # today_scanned = get_today_logs()
+    # if payload.nisn in today_scanned:
+    #      raise HTTPException(
+    #         status_code=409, detail={"message": "already_exists", "nisn": payload.nisn}
+    #     )
 
     # 4. Log the scan
     log_scan(student)
@@ -112,7 +125,8 @@ async def scan(payload: ScanRequest):
         name=student.get("name"),
         class_name=student.get("class"),
         nisn=student.get("nisn"),
-        timestamp=datetime.now().isoformat(timespec="seconds")
+        timestamp=datetime.now().isoformat(timespec="seconds"),
     )
+
 
 app.mount("/photos", StaticFiles(directory="photos"), name="photos")

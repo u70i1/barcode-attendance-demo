@@ -4,6 +4,7 @@ import logo from "../assets/school-logo.png";
 import screw from "../assets/screw.png";
 import OtpInput from "react-otp-input";
 import { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
 
 import Cable from "./sub-components/Cable";
 
@@ -31,7 +32,7 @@ function InputDevice({ onScan }) {
       const scanned = async () => {
         setNisn("");
         setIsScanning(true);
-        await onScan();
+        await onScan(nisn);
         setIsScanning(false);
       };
       scanned();
@@ -39,7 +40,7 @@ function InputDevice({ onScan }) {
   }, [nisn]);
 
   return (
-    <>
+    <div className="device-container">
       <Cable />
       <div className="input-device">
         <img src={screw} className="screw tl" alt="screw" />
@@ -88,7 +89,7 @@ function InputDevice({ onScan }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

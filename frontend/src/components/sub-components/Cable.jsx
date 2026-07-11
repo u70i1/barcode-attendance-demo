@@ -1,6 +1,7 @@
 function Cable() {
   return (
     <svg
+      className="cable"
       width="341"
       height="488"
       viewBox="0 0 341 488"
