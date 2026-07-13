@@ -3,22 +3,31 @@ import "./InputDevice.css";
 import logo from "../assets/school-logo.png";
 import screw from "../assets/screw.png";
 import OtpInput from "react-otp-input";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 
-import Cable from "./sub-components/Cable";
+import Cable from "./Cable";
+import { useLiveDate } from "../hooks/useLiveDate";
 
-function InputDevice({ onScan }) {
-  const now = new Date();
-  const hh_mm = now.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-
+function useNisnScanner(onScan) {
   const [nisn, setNisn] = useState("");
   const [isScanning, setIsScanning] = useState(false);
-  const containerRef = useRef();
+  const containerRef = useRef(null);
+
+  // auto submits when input reaches 10 digits
+  const handleScan = useCallback(async () => {
+    if (nisn.length !== 10) return;
+    setNisn("");
+    setIsScanning(true);
+    await onScan(nisn);
+    setIsScanning(false);
+  }, [nisn, onScan]);
+
+  useEffect(() => {
+    if (nisn.length === 10) {
+      handleScan();
+    }
+  }, [nisn, handleScan]);
 
   useEffect(() => {
     if (!isScanning) {
@@ -27,17 +36,12 @@ function InputDevice({ onScan }) {
     }
   }, [isScanning]);
 
-  useEffect(() => {
-    if (nisn.length === 10) {
-      const scanned = async () => {
-        setNisn("");
-        setIsScanning(true);
-        await onScan(nisn);
-        setIsScanning(false);
-      };
-      scanned();
-    }
-  }, [nisn]);
+  return { nisn, setNisn, isScanning, containerRef };
+}
+
+function InputDevice({ onScan }) {
+  const { date, time } = useLiveDate();
+  const { nisn, setNisn, isScanning, containerRef } = useNisnScanner(onScan);
 
   return (
     <div className="device-container">
@@ -56,8 +60,8 @@ function InputDevice({ onScan }) {
 
         <div className="input-panel">
           <div className="panel-clock">
-            <span className="time">{hh_mm}</span>
-            <span className="date">RAB 07 Jul</span>
+            <span className="time">{time}</span>
+            <span className="date">{date}</span>
           </div>
           <label className="panel-label">NISN</label>
           <div

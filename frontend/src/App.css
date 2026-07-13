@@ -13,7 +13,7 @@
 }
 
 .deck-container {
-  flex: 0 0 55%;
+  flex: 0 0 45%;
   display: flex;
   justify-content: center;
   align-items: start;
@@ -22,7 +22,11 @@
 }
 
 .device-container {
-  flex: 0 0 45%;
+  flex: 0 0 55%;
+}
+
+.device-container .input-device {
+  transform: scale(1.2);
 }
 /* .student-card-wrapper {
   position: absolute;
