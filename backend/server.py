@@ -51,7 +51,7 @@ async def scan(payload: ScanRequest):
         name=student.get("name"),
         class_name=student.get("class"),
         nisn=student.get("nisn"),
-        timestamp=datetime.now().isoformat(timespec="seconds"),
+        timestamp=datetime.now().strftime("%H:%M"),
     )
 
 

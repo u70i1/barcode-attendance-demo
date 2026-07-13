@@ -60,7 +60,7 @@ function App() {
               <StudentCard
                 name={student.name}
                 nisn={student.nisn}
-                time={student.time}
+                time={student.timestamp}
               />
             </motion.div>
           )}
