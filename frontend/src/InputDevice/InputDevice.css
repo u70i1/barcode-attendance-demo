@@ -21,9 +21,11 @@
 
   background: #5e6d7d;
   box-shadow:
-    4px 4px 4px rgba(0, 0, 0, 0.25),
+    0px 6px 0px #384252,
+    4px 2px 4px rgba(0, 0, 0, 0.25),
     inset -4px -4px 15px rgba(0, 0, 0, 0.25),
-    inset 4px 4px 15px rgba(255, 255, 255, 0.25);
+    inset 4px 4px 4px rgba(255, 255, 255, 0.25);
+
   border-radius: 20px;
 }
 
