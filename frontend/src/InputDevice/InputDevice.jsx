@@ -47,10 +47,6 @@ function InputDevice({ onScan }) {
     <div className="device-container">
       <Cable />
       <div className="input-device">
-        <img src={screw} className="screw tl" alt="screw" />
-        <img src={screw} className="screw tr" alt="screw" />
-        <img src={screw} className="screw dl" alt="screw" />
-        <img src={screw} className="screw dr" alt="screw" />
         <div className="device-header">
           <img src={logo} alt="" className="device-logo" />
           <p className="device-title">
@@ -91,6 +87,12 @@ function InputDevice({ onScan }) {
               renderInput={(props) => <input {...props} className="digit" />}
             />{" "}
           </div>
+        </div>
+        <div className="device-hole-container">
+          <div className="device-hole"></div>
+          <div className="device-hole"></div>
+          <div className="device-hole"></div>
+          <div className="device-hole"></div>
         </div>
       </div>
     </div>
