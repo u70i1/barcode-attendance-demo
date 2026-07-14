@@ -5,6 +5,7 @@ import InputDevice from "./InputDevice/InputDevice";
 import Printer from "./Printer/Printer";
 import "./App.css";
 import printSound from "./assets/audio/card.wav";
+import errorSound from "./assets/audio/printer_error.wav";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
@@ -16,6 +17,7 @@ function App() {
   const [error, setError] = useState(null);
 
   const printCardSound = useRef(new Audio(printSound));
+  const printerErrorSound = useRef(new Audio(errorSound));
 
   async function handleScan(nisn) {
     setError(null);
@@ -30,6 +32,7 @@ function App() {
       });
 
       if (!response.ok) {
+        printerErrorSound.current.play();
         const errorData = await response.json();
 
         switch (response.status) {
@@ -55,14 +58,14 @@ function App() {
       }
 
       const data = await response.json();
-      setStudent(data);
-      setStatus(`SUCCESS: ${data.name} - ${data.nisn}`)
+      setTimeout(() => {
+        setStudent(data);
+      }, 80);
+      setStatus(`SUCCESS: ${data.name} - ${data.nisn}`);
       printCardSound.current.play();
-
     } catch (err) {
       // setStatus("ERROR: PLEASE TRY AGAIN");
       setError("Failed to scan card. Please try again.");
-
     } finally {
       setIsLoading(false);
     }
