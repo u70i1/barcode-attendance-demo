@@ -28,9 +28,9 @@
 
   box-shadow:
     2px 2px 2px rgba(0, 0, 0, 0.35),
-    inset 1px 1px 1px #426284,
+    inset 2px 2px 2px #426284,
     inset -4px -4px 4px rgba(0, 0, 0, 0.3),
-    inset 4px 4px 4px rgba(255, 255, 255, 0.4);
+    inset 4px 4px 4px rgba(255, 255, 255, 0.25);
 
   border-radius: 15px;
 }

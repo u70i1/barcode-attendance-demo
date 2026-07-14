@@ -1,7 +1,6 @@
 import "./InputDevice.css";
 
 import logo from "../assets/school-logo.png";
-import screw from "../assets/screw.png";
 import OtpInput from "react-otp-input";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
