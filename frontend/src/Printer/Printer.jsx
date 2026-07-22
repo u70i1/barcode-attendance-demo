@@ -2,12 +2,13 @@ import "./Printer.css";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
-export default function Printer({ status }) {
+export default function Printer({ status, isSuccess }) {
   const displayText = status ?? "WAITING";
   const fullText = `${displayText}`;
   const [displayChars, setDisplayChars] = useState("");
   const intervalRef = useRef(null);
 
+  // typing animation
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
 
@@ -33,7 +34,7 @@ export default function Printer({ status }) {
     <div className="printer">
       <div className="printer-panel">
         <div className="printer-line-wrapper">
-          <span className="printer-text">{displayChars}</span>
+          <span className={`printer-text ${isSuccess ? "" : "printer-text-blink"}`}>{displayChars}</span>
         </div>
       </div>
     </div>

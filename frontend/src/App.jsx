@@ -15,6 +15,7 @@ function App() {
   const [status, setStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const printCardSound = useRef(new Audio(printSound));
   const printerErrorSound = useRef(new Audio(errorSound));
@@ -32,6 +33,7 @@ function App() {
       });
 
       if (!response.ok) {
+        setIsSuccess(false);
         printerErrorSound.current.play();
         const errorData = await response.json();
 
@@ -62,6 +64,7 @@ function App() {
         setStudent(data);
       }, 80);
       setStatus(`SUCCESS: ${data.name} - ${data.nisn}`);
+      setIsSuccess(true);
       printCardSound.current.play();
     } catch (err) {
       // setStatus("ERROR: PLEASE TRY AGAIN");
@@ -75,7 +78,7 @@ function App() {
     <div className="app-container">
       <div className="deck-container">
         <div className="deck-wrapper">
-          <Printer status={status} />
+          <Printer status={status} isSuccess={isSuccess} />
           <div className="slide">
             <AnimatePresence>
               {student && (
