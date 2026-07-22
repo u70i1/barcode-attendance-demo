@@ -6,9 +6,60 @@
   color: #111;
 }
 
-.container {
+.app-container {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+.deck-container {
+  flex: 0 0 45%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  position: relative;
+  height: 100vh;
+}
+
+.device-container {
+  flex: 0 0 55%;
+}
+.deck-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: 4px;
+  top: 0;
+  bottom: 0;
+  width: auto;
+}
+
+.deck-wrapper > * {
+  position: relative;
+}
+
+.deck-wrapper .slide {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.deck-wrapper .slide::before {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 80%;
+  height: 2px;
+
+  border-radius: 2px;
+
+  background-color: #295356;
+  box-shadow:
+    inset 0px 2px 2px rgba(0, 0, 0, 0.75);
+
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  content: "";
 }

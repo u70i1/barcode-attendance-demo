@@ -1,25 +1,38 @@
+.device-container {
+  position: relative;
+  display: flex;
+  top: -50px;
+}
+
 .input-device {
+  isolation: isolate;
+
   font-family: "Plus Jakarta Sans";
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 25px 40px 40px;
-  gap: 15px;
+  gap: 16px;
   isolation: isolate;
 
-  position: absolute;
   width: 480px;
   height: 275px;
-  top: 470px;
-  left: calc(50% - 200px);
+  position: relative;
 
-  background: #5e6d7d;
+  position: absolute;
+  top: 470px;
+  left: 5%;
+
+  background: #456281;
+
   box-shadow:
-    4px 4px 4px rgba(0, 0, 0, 0.25),
-    inset -4px -4px 15px rgba(0, 0, 0, 0.25),
-    inset 4px 4px 15px rgba(255, 255, 255, 0.25);
-  border-radius: 20px;
+    2px 2px 2px rgba(0, 0, 0, 0.35),
+    inset 2px 2px 2px #426284,
+    inset -4px -4px 4px rgba(0, 0, 0, 0.3),
+    inset 4px 4px 4px rgba(255, 255, 255, 0.25);
+
+  border-radius: 15px;
 }
 
 .device-header {
@@ -29,8 +42,8 @@
   padding: 0px;
   gap: 5px;
 
-  width: 252px;
-  height: 56px;
+  /* width: 252px;
+  height: 56px; */
 
   flex: none;
   order: 0;
@@ -51,19 +64,22 @@ img.device-logo {
   flex-grow: 0;
 }
 
-/* smpn 17 kota jambi · attendance terminal */
 .device-title {
+  /* Inside auto layout */
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
-  /* identical to box height, or 100% */
   letter-spacing: 0.05em;
   font-family: "Plus Jakarta Sans";
 
   color: rgba(255, 255, 255, 0.5);
 
-  text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35);
 
   flex: none;
   order: 1;
@@ -85,6 +101,7 @@ img.device-logo {
   background: #d5d5c0;
   box-shadow: inset 0px 4px 15px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
+  border: 4px solid #333;
 
   flex: none;
   order: 1;
@@ -111,10 +128,6 @@ img.device-logo {
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
-.panel-clock.time {
-  font-size: 16px;
-}
-
 .panel-label {
   width: 29px;
   height: 8px;
@@ -126,30 +139,18 @@ img.device-logo {
 
   color: rgba(51, 51, 51, 0.75);
 }
-/*
-.input-boxes {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 12px;
 
-  height: 21px;
-  width: 318px;
+.digit {
+  cursor: default; /* or 'pointer', 'none', etc — changes hover icon */
+  caret-color: transparent; /* hides the blinking text caret */
 
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-} */
-
-.input-boxes .digit {
   font-size: 21px;
   font-family: "Jetbrains Mono", monospace;
   color: rgba(51, 51, 51, 0.9);
   box-sizing: border-box;
 
   width: 21px;
-  height: 21px;
+  height: 32px;
 
   border: none;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.25);
@@ -162,37 +163,65 @@ img.device-logo {
   flex-grow: 0;
 }
 
-.input-boxes .digit:focus {
+.digit:focus {
   outline: none;
+  background: rgba(0, 0, 0, 0.25);
+  animation: digit-blink 0.7s linear infinite;
 }
 
-img.screw {
-  width: 12px;
-  height: 12px;
+@keyframes digit-blink {
+  0%,
+  45% {
+    background: rgba(0, 0, 0, 0.25);
+  }
+  50%,
+  95% {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+/* SCANNING... */
+.scanning-label p {
+  width: 80px;
+  height: 4px;
+
+  font-family: "DM Mono";
+  font-size: 16px;
+  line-height: 4px;
+
+  color: #d5d5c0;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.cable {
   position: absolute;
-  z-index: 2;
-  /* Screw */
-  box-shadow:
-    0 0 2px rgba(0, 0, 0, 0.25),
-    inset 0px -1px 2px rgba(0, 0, 0, 0.25),
-    inset 0px 1px 1px rgba(255, 255, 255, 0.25);
-  border-radius: 50%;
+  left: 8%;
 }
 
-img.screw.tl {
-  top: 12px;
-  left: 12px;
-}
-img.screw.tr {
-  top: 12px;
-  right: 12px;
-}
-img.screw.dl {
-  bottom: 12px;
-  left: 12px;
-}
-img.screw.dr {
-  bottom: 12px;
-  right: 12px;
+.device-hole-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+
+  position: absolute;
+  width: 100%;
+  height: 0px;
+  /* left: 132px; */
+  top: 255px;
 }
 
+.device-hole {
+  width: 48px;
+  height: 2px;
+
+  border-radius: 25%;
+
+  box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.25);
+}

@@ -1,68 +1,58 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
 from datetime import datetime
-import csv
+
+from models.ScanResponse import ScanResponse
+from models.ScanRequest import ScanRequest
+
+from utils.scan_modules import load_students, get_today_logs, log_scan
 
 app = FastAPI()
 
-origins = ["http://localhost:5173"]
-
+# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:5173"],    # !change this in prod
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-STUDENTS_CSV = "mock/attendance.csv"
-LOG_CSV = "mock/scan_log.csv"
 
-
-class ScanRequest(BaseModel):
-    nisn: str
-
-
-def find_student(nisn: str):
-    with open(STUDENTS_CSV, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            if row["nisn"] == nisn:
-                return row
-    return None
-
-
-def log_scan(student: dict):
-    timestamp = datetime.now().isoformat(timespec="seconds")
-    file_exists = False
+@app.post("/scan", response_model=ScanResponse)
+async def scan(payload: ScanRequest):
+    # 1. Load students if cached
     try:
-        with open(LOG_CSV, "r"):
-            file_exists = True
-    except FileNotFoundError:
-        pass
+        students = load_students()
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-    with open(LOG_CSV, "a", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        if not file_exists:
-            writer.writerow(["name", "class", "nisn", "timestamp"])
-        writer.writerow([student["name"], student["class"], student["nisn"], timestamp])
-
-
-@app.post("/scan")
-def scan(payload: ScanRequest):
-    student = find_student(payload.nisn)
+    # 2. Check if student exists
+    student = students.get(payload.nisn)
     if student is None:
-        return {"status": "not_found", "nisn": payload.nisn}
+        raise HTTPException(
+            status_code=404, detail={"message": "not_found", "nisn": payload.nisn}
+        )
 
+    # 3. Check if already scanned today
+    # today_scanned = get_today_logs()
+    # if payload.nisn in today_scanned:
+    #      raise HTTPException(
+    #         status_code=409, detail={"message": "already_exists", "nisn": payload.nisn}
+    #     )
+
+    # 4. Log the scan
     log_scan(student)
-    return {
-        "status": "success",
-        "name": student["name"],
-        "class": student["class"],
-        "nisn": student["nisn"],
-        "timestamp": datetime.now().isoformat(timespec="seconds"),
-    }
+
+    # 5. Return success
+    return ScanResponse(
+        status="success",
+        name=student.get("name"),
+        class_name=student.get("class"),
+        nisn=student.get("nisn"),
+        timestamp=datetime.now().strftime("%H:%M"),
+    )
+
 
 app.mount("/photos", StaticFiles(directory="photos"), name="photos")

@@ -1,6 +1,7 @@
 function Cable() {
   return (
     <svg
+      className="cable"
       width="341"
       height="488"
       viewBox="0 0 341 488"
@@ -11,7 +12,7 @@ function Cable() {
         <path
           d="M207.958 476C216.844 415.508 354.994 362 320.603 318C286.211 274 168.084 318 180.046 224C192.008 130 241.353 153 219.422 109.5C197.491 66 27.0288 109.5 37.4958 50.5C47.9627 -8.49999 9.08539 -7.49999 9.08539 -7.49999"
           stroke="black"
-          stroke-width="7"
+          strokeWidth="7"
         />
       </g>
       <defs>
@@ -22,9 +23,9 @@ function Cable() {
           width="340.59"
           height="507.51"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
